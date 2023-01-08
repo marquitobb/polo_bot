@@ -14,32 +14,65 @@ notion = Client(auth=token)
 # results = notion.search(query='')
 # print(results)
 
-
 parent = {
     "database_id": page_id
 }
 
-page_tags = {
-    "Name": {
-        "title":[
-            {
-                "text": {
-                    "content":'zzzz zzzz',
-                }
-            }
-        ]
-    },
-    "Cost":{
-        "rich_text":[
-            {
-                "text": {
-                    "content":'201',
-                }
-            }
-        ]
-    }
-}
+class NotionDatabase:
+    @classmethod
+    def save_costs(cls, name: str, cost: str):
+        try:
+            pages = notion.pages.create(parent=parent, properties=cls.create_schema(name, cost))
+            return pages
+        except Exception as e:
+            print(e)
+            return None
 
 
-pages = notion.pages.create(parent=parent, properties=page_tags)
-print(pages)
+    @classmethod
+    def create_schema(cls, name: str, cost: str) -> dict:
+        try:
+            page_tags = {
+                "Name": {
+                    "title":[
+                        {
+                            "text": {
+                                "content": name,
+                            }
+                        }
+                    ]
+                },
+                "Cost":{
+                    "rich_text":[
+                        {
+                            "text": {
+                                "content": cost,
+                            }
+                        }
+                    ]
+                }
+            }
+            return page_tags
+        except Exception as e:
+            print(e)
+            return {
+                "Name": {
+                    "title":[
+                        {
+                            "text": {
+                                "content": None,
+                            }
+                        }
+                    ]
+                },
+                "Cost":{
+                    "rich_text":[
+                        {
+                            "text": {
+                                "content": None,
+                            }
+                        }
+                    ]
+                }
+            }
+
