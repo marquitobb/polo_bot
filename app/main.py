@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import telebot
 from dotenv import load_dotenv
 from telebot.types import ReplyKeyboardMarkup, ForceReply
@@ -52,6 +53,11 @@ def save_cost(message):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
+
+@bot.message_handler(commands=['apagar'])
+def send_welcome(message):
+    os.system("sudo shutdown now")
+    bot.reply_to(message, "Se intento apagar!")
 
 
 if __name__ == '__main__':
