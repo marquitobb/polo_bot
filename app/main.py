@@ -22,6 +22,11 @@ def enviar(message):
 def send_welcome(message):
     bot.reply_to(message, "que ondaaa")
 
+@bot.message_handler(commands=['apagar'])
+def send_welcome(message):
+    os.system("sudo shutdown now")
+    bot.reply_to(message, "Se intento apagar!")
+
 @bot.message_handler(regexp='Hola')
 def handle_message(message):
     bot.reply_to(message, "Holaa soy Polo que te ayudare a controlar finanzas solo escribe /finanzas y te ayudaré")
@@ -53,12 +58,6 @@ def save_cost(message):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
-
-@bot.message_handler(commands=['apagar'])
-def send_welcome(message):
-    os.system("sudo shutdown now")
-    bot.reply_to(message, "Se intento apagar!")
-
 
 if __name__ == '__main__':
     print("polo is running")
